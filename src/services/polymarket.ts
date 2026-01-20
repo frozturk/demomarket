@@ -33,6 +33,18 @@ export async function getEventDataBySlug(eventSlug: string): Promise<EventData> 
 export async function getTokenPrice(tokenId: string, side: string = 'SELL'): Promise<number> {
     const marketSide = side === 'SELL' ? 'BUY' : 'SELL';
     const res = await fetch(`https://clob.polymarket.com/price?token_id=${tokenId}&side=${marketSide}`);
+    if (!res.ok) {
+        return -1;
+    }
     const data = await res.json();
     return parseFloat(data.price);
+}
+
+export async function getOutcomePrice(tokenId: string): Promise<number> {
+    const market = await fetch(`https://gamma-api.polymarket.com/markets?clob_token_ids=${tokenId}`);
+    const data = await market.json();
+    const clobTokenIds = JSON.parse(data[0].clobTokenIds);
+    const tokenIndex = clobTokenIds.indexOf(tokenId);
+    const outcomePrices = JSON.parse(data[0].outcomePrices);
+    return parseFloat(outcomePrices[tokenIndex]);
 }

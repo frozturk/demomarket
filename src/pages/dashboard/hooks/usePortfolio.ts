@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { type Wallet } from '@/types';
 import { getMarketDataBySlug, getOutcomeName } from '@/utils';
-import { getEventDataBySlug, getTokenPrice } from '@/services/polymarket';
+import { getEventDataBySlug, getOutcomePrice, getTokenPrice } from '@/services/polymarket';
 import { INITIAL_BALANCE, PERCENTAGE_MULTIPLIER } from '@/utils/constants';
 import { Holding } from '../types';
 
@@ -14,14 +14,23 @@ interface PortfolioState {
 }
 
 async function enrichHolding(tokenId: string, holding: Wallet[string]): Promise<Holding> {
-    const [currentPrice, eventData] = await Promise.all([
+    const [tokenPrice, eventData] = await Promise.all([
         getTokenPrice(tokenId, 'SELL'),
         getEventDataBySlug(holding.eventSlug),
     ]);
 
+    let currentPrice = tokenPrice;
+    if (tokenPrice < 0) {
+        currentPrice = await getOutcomePrice(tokenId);
+    }
+
     const market = getMarketDataBySlug(eventData, holding.marketSlug);
     const currentVal = holding.shares * currentPrice;
     const costBasis = holding.totalCost;
+
+    console.log('currentPrice', currentPrice);
+    console.log('currentVal', currentVal);
+    console.log('costBasis', costBasis);
 
     return {
         tokenId,

@@ -23,6 +23,10 @@ export async function executeTrade(input: TradeInput): Promise<boolean> {
     const marketSide = input.formData.side === 'BUY' ? 'SELL' : 'BUY';
     const price = await getTokenPrice(clobTokenId, marketSide);
 
+    if (!price || !isFinite(price)) {
+        return false;
+    }
+
     const walletEntry: WalletEntry = {
         version: DATA_VERSION,
         eventSlug: input.eventSlug,
