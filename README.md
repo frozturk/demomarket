@@ -11,16 +11,14 @@ A Chrome extension for paper trading on Polymarket. Practice trading without ris
 
 ## Installation
 
-### Development
+### 1. Chrome Web Store
+
+Install directly from the [Chrome Web Store](https://chromewebstore.google.com/detail/demomarket/khhjjkbmckhdabkaepljmhbegbmphael).
+
+### 2. Manual Build
 
 ```bash
 bun install
-bun run dev
-```
-
-### Build for Production
-
-```bash
 bun run build
 ```
 
@@ -32,6 +30,11 @@ Load the `dist/` folder as an unpacked extension in Chrome. [How to load unpacke
 2. Navigate to any Polymarket event page
 3. Click the orange **Demo** button to simulate a trade
 4. Open the extension popup to view your dashboard
+
+## Known Limitations
+
+- Only event markets are supported
+- Trades execute at current market price regardless of volume or liquidity depth
 
 ## Scripts
 
