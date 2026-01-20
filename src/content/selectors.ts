@@ -1,8 +1,9 @@
 export const SELECTORS = {
-    TRADE_WIDGET: '#trade-widget',
+    TRADE_WIDGET_ID: 'trade-widget',
+    DEMO_BUTTON_ID: 'demo-button',
     OUTCOME_BUTTONS: '#outcome-buttons',
     AMOUNT_INPUT: '#market-order-amount-input',
-    ACTION_AREA: 'div.flex.flex-col.gap-4 > div.flex.flex-1',
+    TRADING_BUTTON: 'div.flex.flex-col.gap-4 button.trading-button',
     MARKET_ELEMENT: '#trade-widget span.font-semibold.text-base',
     SELECTED_RADIO_BUTTON: 'button[aria-checked=true]',
     RADIO_BUTTONS: '#trade-widget div[role=radiogroup]',

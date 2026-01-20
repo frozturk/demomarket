@@ -1,9 +1,10 @@
 import { defineManifest } from '@crxjs/vite-plugin'
+import { version } from './package.json'
 
 export default defineManifest({
   manifest_version: 3,
   name: 'DemoMarket',
-  version: '0.1.0',
+  version: version,
   description: "Paper Trading Simulator for Polymarket",
   permissions: ['storage'],
   host_permissions: [

@@ -1,12 +1,12 @@
-import { SELECTORS, URL_PATTERNS } from './selectors';
+import { URL_PATTERNS } from './selectors';
 import {
     createDemoButton,
-    waitForElement,
     setButtonLoading,
     setButtonSuccess,
     setButtonError,
     restoreButton,
     readTradeForm,
+    onDemoButtonRefresh,
 } from './ui';
 import { loadState } from './wallet';
 import { executeTrade } from './trading';
@@ -56,5 +56,5 @@ function handleEventPage(tradeWidget: Element): void {
     }
 }
 
-waitForElement(SELECTORS.TRADE_WIDGET, handleEventPage);
+onDemoButtonRefresh(handleEventPage);
 loadState();

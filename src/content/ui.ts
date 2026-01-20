@@ -81,19 +81,18 @@ export function restoreButton(button: HTMLButtonElement, state: ButtonState): vo
 }
 
 export function createDemoButton(tradeWidget: Element): HTMLButtonElement | null {
-    const actionArea = tradeWidget.querySelector(SELECTORS.ACTION_AREA);
+    const tradingButton = tradeWidget.querySelector(SELECTORS.TRADING_BUTTON);
+    if (!tradingButton) return null;
+
+    const actionArea = tradingButton.parentElement;
     if (!actionArea) return null;
 
     actionArea.className = actionArea.className + ' gap-3';
-    const actionButtonArea = actionArea.querySelector('span');
-    if (!actionButtonArea) return null;
 
-    const newButtonArea = actionButtonArea.cloneNode(true) as HTMLElement;
-    newButtonArea.style.flex = '0.3';
-
-    const newButton = newButtonArea.querySelector('button');
-    if (!newButton) return null;
-
+    const newButton = tradingButton.cloneNode(true) as HTMLButtonElement;
+    newButton.id = SELECTORS.DEMO_BUTTON_ID;
+    newButton.style.flex = '0.3';
+    newButton.classList.remove('opacity-50');
     newButton.innerText = 'Demo';
     newButton.style.fontSize = '14px';
     newButton.style.fontWeight = '600';
@@ -105,22 +104,20 @@ export function createDemoButton(tradeWidget: Element): HTMLButtonElement | null
         newButton.setAttribute('data-tapstate', 'rest');
     });
 
-    actionArea.appendChild(newButtonArea);
+    actionArea.appendChild(newButton);
     return newButton;
 }
 
-export function waitForElement(selector: string, callback: (el: Element) => void): void {
-    const existing = document.querySelector(selector);
-    if (existing) {
-        callback(existing);
-    }
-
-    let foundElem = existing;
+export function onDemoButtonRefresh(callback: (el: Element) => void): void {
     const observer = new MutationObserver(() => {
-        const el = document.querySelector(selector);
-        if (el && foundElem !== el) {
-            foundElem = el;
-            callback(el);
+        const demoButton = document.getElementById(SELECTORS.DEMO_BUTTON_ID);
+        if (demoButton) {
+            return;
+        }
+
+        const tradeWidget = document.getElementById(SELECTORS.TRADE_WIDGET_ID);
+        if (tradeWidget) {
+            callback(tradeWidget);
         }
     });
 
