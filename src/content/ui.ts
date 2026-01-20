@@ -131,7 +131,7 @@ export function waitForElement(selector: string, callback: (el: Element) => void
 }
 
 export interface TradeFormData {
-    marketName: string;
+    marketName: string | null;
     selectedOutcomeIndex: number;
     side: string;
     amount: number;
@@ -139,15 +139,19 @@ export interface TradeFormData {
 
 export function readTradeForm(): TradeFormData | null {
     const marketElement = document.querySelector(SELECTORS.MARKET_ELEMENT) as HTMLElement | null;
-    if (!marketElement) return null;
+
+    const radioButtons = document.querySelectorAll(SELECTORS.RADIO_BUTTONS);
+    if (!radioButtons || radioButtons.length < 2) return null;
 
     const outcomeButtons = document.querySelector(SELECTORS.OUTCOME_BUTTONS);
     if (!outcomeButtons) return null;
 
-    const selectedOutcomeButton = outcomeButtons.querySelector(SELECTORS.SELECTED_OUTCOME) as HTMLButtonElement | null;
+    const selectedOutcomeButton = outcomeButtons.querySelector(
+        SELECTORS.SELECTED_RADIO_BUTTON
+    ) as HTMLButtonElement | null;
     if (!selectedOutcomeButton) return null;
 
-    const sideElement = document.querySelector(SELECTORS.SIDE_BUTTON) as HTMLButtonElement | null;
+    const sideElement = radioButtons[0].querySelector(SELECTORS.SELECTED_RADIO_BUTTON) as HTMLButtonElement | null;
     if (!sideElement) return null;
 
     const amountInput = document.querySelector(SELECTORS.AMOUNT_INPUT) as HTMLInputElement | null;
@@ -158,7 +162,7 @@ export function readTradeForm(): TradeFormData | null {
     if (isNaN(amount) || amount <= 0) return null;
 
     return {
-        marketName: marketElement.innerText,
+        marketName: marketElement?.innerText ?? null,
         selectedOutcomeIndex: parseInt(selectedOutcomeButton.value),
         side: sideElement.value,
         amount,

@@ -15,8 +15,15 @@ export function getMarketDataBySlug(eventData: EventData, marketSlug: string): M
     };
 }
 
-export function getMarketByName(eventData: EventData, marketName: string): Market | null {
-    const market = eventData.markets?.find((m) => m.groupItemTitle === marketName || m.question === marketName);
+export function getMarketByName(eventData: EventData, marketName: string | null): Market | null {
+    let market;
+
+    if (marketName) {
+        market = eventData.markets?.find((m) => m.groupItemTitle === marketName || m.question === marketName);
+    } else {
+        market = eventData.markets?.find((m) => m.slug === eventData.slug);
+    }
+
     if (!market) return null;
 
     return {
