@@ -28,10 +28,6 @@ async function enrichHolding(tokenId: string, holding: Wallet[string]): Promise<
     const currentVal = holding.shares * currentPrice;
     const costBasis = holding.totalCost;
 
-    console.log('currentPrice', currentPrice);
-    console.log('currentVal', currentVal);
-    console.log('costBasis', costBasis);
-
     return {
         tokenId,
         ...holding,
