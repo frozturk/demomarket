@@ -11,9 +11,6 @@ export default defineManifest({
     "https://gamma-api.polymarket.com/*",
     "https://clob.polymarket.com/*"
   ],
-  action: {
-    default_icon: "src/assets/icon.png"
-  },
   background: {
     service_worker: "src/background/index.ts",
     type: "module"
@@ -26,5 +23,17 @@ export default defineManifest({
       ],
       run_at: "document_end"
     }
-  ]
+  ],
+  action: {
+    default_icon: {
+      "16": "src/assets/icon_16.png",
+      "32": "src/assets/icon_32.png",
+      "128": "src/assets/icon_128.png"
+    }
+  },
+  icons: {
+    "16": "src/assets/icon_16.png",
+    "32": "src/assets/icon_32.png",
+    "128": "src/assets/icon_128.png"
+  }
 })
